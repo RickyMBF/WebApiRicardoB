@@ -21,7 +21,7 @@ namespace WebApiRicardoB.Controllers
             return await dbContext.ManufacturingCountries.ToListAsync();
         }
 
-        [HttpGet("id:int")]
+        [HttpGet("{id:int}")]
         public async Task<ActionResult<PaisProductor>> GetById(int id)
         {
             return await dbContext.ManufacturingCountries.FirstOrDefaultAsync(x => x.Id == id);
