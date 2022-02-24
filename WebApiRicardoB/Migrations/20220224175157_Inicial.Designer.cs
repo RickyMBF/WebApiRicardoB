@@ -11,7 +11,7 @@ using WebApiRicardoB;
 namespace WebApiRicardoB.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220214164757_Inicial")]
+    [Migration("20220224175157_Inicial")]
     partial class Inicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -44,10 +44,9 @@ namespace WebApiRicardoB.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("VIN")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Year")
-                        .HasColumnType("int");
+                        .IsRequired()
+                        .HasMaxLength(17)
+                        .HasColumnType("nvarchar(17)");
 
                     b.HasKey("Id");
 
@@ -75,13 +74,13 @@ namespace WebApiRicardoB.Migrations
 
                     b.HasIndex("CarroId");
 
-                    b.ToTable("ManufacturingCountries");
+                    b.ToTable("PaisesProductores");
                 });
 
             modelBuilder.Entity("WebApiRicardoB.Entities.PaisProductor", b =>
                 {
                     b.HasOne("WebApiRicardoB.Entities.Carro", "Carro")
-                        .WithMany("ManufacturingCountries")
+                        .WithMany("PaisesProductores")
                         .HasForeignKey("CarroId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -91,7 +90,7 @@ namespace WebApiRicardoB.Migrations
 
             modelBuilder.Entity("WebApiRicardoB.Entities.Carro", b =>
                 {
-                    b.Navigation("ManufacturingCountries");
+                    b.Navigation("PaisesProductores");
                 });
 #pragma warning restore 612, 618
         }

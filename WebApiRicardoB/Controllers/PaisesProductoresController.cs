@@ -5,12 +5,12 @@ using WebApiRicardoB.Entities;
 namespace WebApiRicardoB.Controllers
 {
     [ApiController]
-    [Route("api/manufacturingcountries")]
+    [Route("api/paisesproductores")]
 
-    public class ManufacturingCountriesController : ControllerBase
+    public class PaisesProductoresController : ControllerBase
     {
         private readonly ApplicationDbContext dbContext;
-        public ManufacturingCountriesController(ApplicationDbContext context)
+        public PaisesProductoresController(ApplicationDbContext context)
         {
             this.dbContext = context;
         }
@@ -18,13 +18,13 @@ namespace WebApiRicardoB.Controllers
         [HttpGet]
         public async Task<ActionResult<List<PaisProductor>>> GetAll()
         {
-            return await dbContext.ManufacturingCountries.ToListAsync();
+            return await dbContext.PaisesProductores.ToListAsync();
         }
 
         [HttpGet("{id:int}")]
         public async Task<ActionResult<PaisProductor>> GetById(int id)
         {
-            return await dbContext.ManufacturingCountries.FirstOrDefaultAsync(x => x.Id == id);
+            return await dbContext.PaisesProductores.FirstOrDefaultAsync(x => x.Id == id);
         }
 
         [HttpPost]
@@ -45,7 +45,7 @@ namespace WebApiRicardoB.Controllers
         [HttpPut("{id:int}")]
         public async Task<ActionResult> Put(PaisProductor paisProductor, int id)
         {
-            var exist = await dbContext.ManufacturingCountries.AnyAsync(x => x.Id == id);
+            var exist = await dbContext.PaisesProductores.AnyAsync(x => x.Id == id);
 
             if (!exist)
             {
@@ -66,7 +66,7 @@ namespace WebApiRicardoB.Controllers
 
         public async Task<ActionResult> Delete(int id)
         {
-            var exist = await dbContext.ManufacturingCountries.AnyAsync(x => x.Id == id);
+            var exist = await dbContext.PaisesProductores.AnyAsync(x => x.Id == id);
             if (!exist)
             {
                 return NotFound("El recurso no fue encontrado. ");

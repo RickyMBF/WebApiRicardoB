@@ -14,11 +14,10 @@ namespace WebApiRicardoB.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    VIN = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    VIN = table.Column<string>(type: "nvarchar(17)", maxLength: 17, nullable: false),
                     LicensePlate = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Brand = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Model = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Year = table.Column<int>(type: "int", nullable: false),
                     Color = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -27,7 +26,7 @@ namespace WebApiRicardoB.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ManufacturingCountries",
+                name: "PaisesProductores",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -38,9 +37,9 @@ namespace WebApiRicardoB.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ManufacturingCountries", x => x.Id);
+                    table.PrimaryKey("PK_PaisesProductores", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ManufacturingCountries_Carros_CarroId",
+                        name: "FK_PaisesProductores_Carros_CarroId",
                         column: x => x.CarroId,
                         principalTable: "Carros",
                         principalColumn: "Id",
@@ -48,15 +47,15 @@ namespace WebApiRicardoB.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ManufacturingCountries_CarroId",
-                table: "ManufacturingCountries",
+                name: "IX_PaisesProductores_CarroId",
+                table: "PaisesProductores",
                 column: "CarroId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "ManufacturingCountries");
+                name: "PaisesProductores");
 
             migrationBuilder.DropTable(
                 name: "Carros");

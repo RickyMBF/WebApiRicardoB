@@ -12,6 +12,6 @@ namespace WebApiRicardoB
         }
 
         public DbSet<Carro> Carros { get; set; }
-        public DbSet<PaisProductor> ManufacturingCountries { get; set; }
+        public DbSet<PaisProductor> PaisesProductores { get; set; }
     }
 }
