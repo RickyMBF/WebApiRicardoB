@@ -2,7 +2,7 @@
 
 namespace WebApiRicardoB.Validaciones
 {
-    public class PrimeraLetraMayusculaAttribute
+    public class PrimeraLetraMayusculaAttribute : ValidationAttribute
     {
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
@@ -15,7 +15,7 @@ namespace WebApiRicardoB.Validaciones
 
             if(primeraLetra != primeraLetra.ToUpper())
             {
-                return new ValidationResult("La primera letra debe de ser mayúscula");
+                return new ValidationResult("La primera letra debe ser mayúscula");
             }
             return ValidationResult.Success;
         }

@@ -10,20 +10,25 @@ namespace WebApiRicardoB.Controllers
     public class PaisesProductoresController : ControllerBase
     {
         private readonly ApplicationDbContext dbContext;
-        public PaisesProductoresController(ApplicationDbContext context)
+        private readonly ILogger<PaisesProductoresController> log;
+        public PaisesProductoresController(ApplicationDbContext context, ILogger<PaisesProductoresController> log)
         {
             this.dbContext = context;
+            this.log = log;
         }
 
         [HttpGet]
+        [HttpGet("/listadoPaisProductor")]
         public async Task<ActionResult<List<PaisProductor>>> GetAll()
         {
+            log.LogInformation("Obteniendo listado de países productores.");
             return await dbContext.PaisesProductores.ToListAsync();
         }
 
         [HttpGet("{id:int}")]
         public async Task<ActionResult<PaisProductor>> GetById(int id)
         {
+            log.LogInformation("El ID es: " + id);
             return await dbContext.PaisesProductores.FirstOrDefaultAsync(x => x.Id == id);
         }
 
@@ -63,7 +68,6 @@ namespace WebApiRicardoB.Controllers
         }
 
         [HttpDelete("{id:int}")]
-
         public async Task<ActionResult> Delete(int id)
         {
             var exist = await dbContext.PaisesProductores.AnyAsync(x => x.Id == id);
