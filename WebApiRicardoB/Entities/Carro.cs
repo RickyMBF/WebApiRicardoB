@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿/*using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using WebApiRicardoB.Validaciones;
 
@@ -50,5 +50,30 @@ namespace WebApiRicardoB.Entities
                     new String[] {nameof(Menor) });
             }
         }
+    }
+}
+*/
+using System.ComponentModel.DataAnnotations;
+using WebApiRicardoB.Validaciones;
+
+namespace WebApiRicardoB.Entities
+{
+    public class Carro
+    {
+        public int Id { get; set; }
+
+        [Required(ErrorMessage = "El campo {0} es requerido")] 
+        [StringLength(maximumLength: 17, ErrorMessage = "El campo {0} solo puede tener hasta 17 caracteres")]
+        public string VIN { get; set; }
+
+        [PrimeraLetraMayuscula]
+        public string Brand { get; set; }
+
+        public string Model { get; set; }
+
+        public string LicensePlate { get; set; }
+        public string Color { get; set; }
+
+
     }
 }

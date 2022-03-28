@@ -15,9 +15,9 @@ namespace WebApiRicardoB.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     VIN = table.Column<string>(type: "nvarchar(17)", maxLength: 17, nullable: false),
-                    LicensePlate = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Brand = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Model = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LicensePlate = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Color = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -32,33 +32,21 @@ namespace WebApiRicardoB.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CountryName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    NumberOfFactories = table.Column<int>(type: "int", nullable: false),
-                    CarroId = table.Column<int>(type: "int", nullable: false)
+                    NumberOfFactories = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PaisesProductores", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_PaisesProductores_Carros_CarroId",
-                        column: x => x.CarroId,
-                        principalTable: "Carros",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PaisesProductores_CarroId",
-                table: "PaisesProductores",
-                column: "CarroId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "PaisesProductores");
+                name: "Carros");
 
             migrationBuilder.DropTable(
-                name: "Carros");
+                name: "PaisesProductores");
         }
     }
 }

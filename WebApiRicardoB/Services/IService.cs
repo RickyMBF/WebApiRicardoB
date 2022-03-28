@@ -1,4 +1,4 @@
-﻿namespace WebApiRicardoB.Services
+﻿/*namespace WebApiRicardoB.Services
 {
     public interface IService
     {
@@ -8,7 +8,7 @@
         Guid GetTransient();
     }
 
-        public class ServiceA : IService
+       public class ServiceA : IService
     {
         private readonly ServiceScoped serviceScoped;
         private readonly ServiceSingleton serviceSingleton;
@@ -73,3 +73,4 @@
     }
 }
 
+*/

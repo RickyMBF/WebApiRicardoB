@@ -59,9 +59,6 @@ namespace WebApiRicardoB.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("CarroId")
-                        .HasColumnType("int");
-
                     b.Property<string>("CountryName")
                         .HasColumnType("nvarchar(max)");
 
@@ -70,25 +67,7 @@ namespace WebApiRicardoB.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CarroId");
-
                     b.ToTable("PaisesProductores");
-                });
-
-            modelBuilder.Entity("WebApiRicardoB.Entities.PaisProductor", b =>
-                {
-                    b.HasOne("WebApiRicardoB.Entities.Carro", "Carro")
-                        .WithMany("PaisesProductores")
-                        .HasForeignKey("CarroId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Carro");
-                });
-
-            modelBuilder.Entity("WebApiRicardoB.Entities.Carro", b =>
-                {
-                    b.Navigation("PaisesProductores");
                 });
 #pragma warning restore 612, 618
         }

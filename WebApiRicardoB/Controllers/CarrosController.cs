@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿/*using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApiRicardoB.Entities;
@@ -62,7 +62,6 @@ namespace WebApiRicardoB.Controllers
             // Information
             // Debug
             // Trace
-            // *//
             throw new NotImplementedException();
             logger.LogInformation("Se obtiene el listado de carros.");
             logger.LogWarning("Mensaje de prueba warning.");
@@ -121,6 +120,7 @@ namespace WebApiRicardoB.Controllers
                 return BadRequest("Ya existe un carro con el mismo VIN.");
             }
 
+            
             dbContext.Add(carro);
             await dbContext.SaveChangesAsync();
             return Ok();
@@ -146,6 +146,120 @@ namespace WebApiRicardoB.Controllers
             if(!exist)
             {
                 return NotFound();
+            }
+
+            dbContext.Remove(new Carro()
+            {
+                Id = id
+            });
+            await dbContext.SaveChangesAsync();
+            return Ok();
+        }
+    }
+}
+*/
+using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using WebApiRicardoB.DTOs;
+using WebApiRicardoB.Entities;
+
+namespace WebApiRicardoB.Controllers
+{
+    [ApiController]
+    [Route("carros")]
+    public class CarrosController : ControllerBase
+    {
+        private readonly ApplicationDbContext dbContext;
+        private readonly IMapper mapper;
+
+        public CarrosController(ApplicationDbContext context, IMapper mapper)
+        {
+            this.dbContext = context;
+            this.mapper = mapper;
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<List<GetCarroDTO>>> Get()
+        {
+            var carros = await dbContext.Carros.ToListAsync();
+            return mapper.Map<List<GetCarroDTO>>(carros);
+        }
+
+
+        [HttpGet("{id:int}")] //Se puede usar ? para que no sea obligatorio el parametro /{param=Ricardo}  getCarro/{id:int}/
+        public async Task<ActionResult<GetCarroDTO>> Get(int id)
+        {
+            var carro = await dbContext.Carros.FirstOrDefaultAsync(carroBD => carroBD.Id == id);
+
+            if (carro == null)
+            {
+                return NotFound();
+            }
+
+            return mapper.Map<GetCarroDTO>(carro);
+
+        }
+
+        [HttpGet("{VIN}")]
+        public async Task<ActionResult<List<GetCarroDTO>>> Get([FromRoute] string VIN)
+        {
+            var carros = await dbContext.Carros.Where(carroBD => carroBD.VIN.Contains(VIN)).ToListAsync();
+
+            return mapper.Map<List<GetCarroDTO>>(carros);
+
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Post([FromBody] CarroDTO carroDto)
+        {
+            //Ejemplo para validar desde el controlador con la BD con ayuda del dbContext
+
+            var existeCarroMismoVIN = await dbContext.Carros.AnyAsync(x => x.VIN == carroDto.VIN);
+
+            if (existeCarroMismoVIN)
+            {
+                return BadRequest($"Ya existe un carro con el VIN {carroDto.VIN}");
+            }
+
+            //var carroo = new Carro()
+            //{
+            //    VIN = carroDto.VIN
+            //};
+
+            var carro = mapper.Map<Carro>(carroDto);
+
+            dbContext.Add(carro);
+            await dbContext.SaveChangesAsync();
+            return Ok();
+        }
+
+        [HttpPut("{id:int}")] // api/carros/1
+        public async Task<ActionResult> Put(Carro carro, int id)
+        {
+            var exist = await dbContext.Carros.AnyAsync(x => x.Id == id);
+            if (!exist)
+            {
+                return NotFound();
+            }
+
+            if (carro.Id != id)
+            {
+                return BadRequest("El id del carro no coincide con el establecido en la url.");
+            }
+
+            dbContext.Update(carro);
+            await dbContext.SaveChangesAsync();
+            return Ok();
+        }
+
+        [HttpDelete("{id:int}")]
+        public async Task<ActionResult> Delete(int id)
+        {
+            var exist = await dbContext.Carros.AnyAsync(x => x.Id == id);
+            if (!exist)
+            {
+                return NotFound("El Recurso no fue encontrado.");
             }
 
             dbContext.Remove(new Carro()

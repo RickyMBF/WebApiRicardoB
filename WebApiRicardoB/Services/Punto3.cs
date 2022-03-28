@@ -1,12 +1,12 @@
-﻿/*namespace WebApiRicardoB.Services
+﻿namespace WebApiRicardoB.Services
 {
-    public class EscribirEnArchivo : IHostedService
+    public class Punto3 : IHostedService
     {
         private readonly IWebHostEnvironment env;
-        private readonly string nombreArchivo = "Archivo 1.txt";
+        private readonly string nombreArchivo = "LaPuraVerdad.txt";
         private Timer timer;
 
-        public EscribirEnArchivo(IWebHostEnvironment env)
+        public Punto3(IWebHostEnvironment env)
         {
             this.env = env;
         }
@@ -14,7 +14,7 @@
         public Task StartAsync(CancellationToken cancellationToken)
         {
             //Se ejecuta cuando cargamos la aplicacion 1 vez
-            timer = new Timer(DoWork, null, TimeSpan.Zero, TimeSpan.FromSeconds(5));
+            timer = new Timer(DoWork, null, TimeSpan.Zero, TimeSpan.FromSeconds(120));
             Escribir("Proceso Iniciado");
             return Task.CompletedTask;
         }
@@ -29,7 +29,7 @@
 
         private void DoWork(object state)
         {
-            Escribir("Proceso en ejecucion: " + DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss"));
+            Escribir("El Profe Gustavo Rodriguez es el mejor.");
         }
         private void Escribir(string msg)
         {
@@ -38,4 +38,4 @@
         }
     }
 }
-*/
+
